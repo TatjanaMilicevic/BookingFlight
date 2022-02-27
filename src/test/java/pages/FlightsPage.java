@@ -4,7 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
@@ -45,13 +44,16 @@ public class FlightsPage extends BasePage {
     WebElement search;
     @FindBy(css = "button.css-1p87hp6")
     WebElement modifySearch;
-    @FindBy(css = "button[aria-controls='__bui-39'][aria-selected='true']")
-    WebElement mostFavorable;
-    @FindBy(css = "span.InputRadio-module__field___16hZ8")
-    List<WebElement> chairRadioBtn;
-    @FindBy(css = "[data-testid='searchresults_card']")
-    List<WebElement> flightsCard;
-
+    @FindBy(css = "div#flightcard-0")
+    WebElement firstFlight;
+    @FindBy(css = "div[data-test-id='flight_card_price_main_price']")
+    List<WebElement> prices;
+    @FindBy(css = "button[data-testid='flight_card_bound_select_flight']")
+    List<WebElement> showFlightBtn;
+    @FindBy(css = ".css-5nu86q div[data-test-id='flight_card_price_main_price']")
+    WebElement selectedFlightPrice;
+    @FindBy(css = "[data-testid='flight_details_inner_modal_select_button']")
+    WebElement selectFlightBtn;
 
 
     public void openFlightsPage() throws InterruptedException {
@@ -114,11 +116,56 @@ public class FlightsPage extends BasePage {
     }
 
     public void chooseFlightTime(String time) throws InterruptedException {
-            List<WebElement> flightTime = driver.findElements(By.xpath("//*[contains(text(),'" + time + "')]"));
-            clickElement(flightTime.get(0));
+        List<WebElement> flightTime = driver.findElements(By.xpath("//*[contains(text(),'" + time + "')]"));
+        clickElement(flightTime.get(0));
+        Thread.sleep(1000);
+    }
+
+    public void choosePresentation(String presentation) throws InterruptedException {
+
+        clickElement(driver.findElement(By.xpath("//span[text()='" + presentation + "']")));
+        Thread.sleep(2000);
+    }
+
+    public void verifySelectedFlight() throws InterruptedException {
+        if (firstFlight.isDisplayed()) {
+
+            //get price of one passenger and remover ","
+            String priceFirstFlightOne = (getText(prices.get(0))).substring(1).replace(",","");
+
+            Double priceFlightExpOne = Double.parseDouble(priceFirstFlightOne);
+
+            //get number of adults
+            Double adultsNum = Double.parseDouble(getText(adultEl).substring(0,1));
+
+            //get price for all passengers
+            Double priceFirstFlightAdults = adultsNum * priceFlightExpOne;
+            double roundPriceFirstFlightAdults = Math.round(priceFirstFlightAdults*100.0)/100.0;
+
+            clickElement(showFlightBtn.get(0));
+
+            //get price on selected flight page - price is for all passengers
+            String priceSelectedFlight = (getText(selectedFlightPrice)).substring(1).replace(",","");
+
+            Double priceFlightAcc = Double.parseDouble(priceSelectedFlight);
+
+            //there is different behavior on this page regarding price, verify prices
+             if(roundPriceFirstFlightAdults==priceFlightAcc){
+                 Assert.assertEquals(roundPriceFirstFlightAdults,priceFlightAcc);
+             }else{
+                 Assert.assertEquals(priceFlightAcc,priceFlightExpOne);
+             }
+
+            }
         }
 
+    public void selectFlight () throws InterruptedException {
+        clickElement(selectFlightBtn);
     }
+
+
+}
+
 
 
 

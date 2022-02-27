@@ -7,7 +7,9 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.testng.Reporter;
+import pages.ContactDataPage;
 import pages.FlightsPage;
+import pages.TicketTypePage;
 import tests.BaseTest;
 
 import java.io.IOException;
@@ -27,11 +29,11 @@ public class BookingSteps extends BaseTest {
         setUPTest(BROWSER, Integer.parseInt(WAIT));
     }
 
-    @After
-    public void tearDown() throws IOException, InterruptedException {
-        reportScreenshot("end", "screenshot on end or fail");
-        quit();
-    }
+//    @After
+//    public void tearDown() throws IOException, InterruptedException {
+//        reportScreenshot("end", "screenshot on end or fail");
+//        quit();
+//    }
 
     @Given("I load test data from {string} {string} {string}")
     public void iLoadTestDataFrom(String fileName, String sheetName, String rowNum) throws IOException {
@@ -96,13 +98,55 @@ public class BookingSteps extends BaseTest {
         flightsPage.chooseStops(stops);
         flightsPage.chooseFlightTime(time);
     }
+
+    @Then("I choose presentation {string}")
+    public void iChoosePresentation(String presentation) throws InterruptedException {
+        FlightsPage flightsPage = new FlightsPage(driver);
+        flightsPage.choosePresentation(presentation);
+    }
+
+    @Then("I check price")
+    public void iCheckPriceAndSelectFlight() throws InterruptedException {
+        FlightsPage flightsPage = new FlightsPage(driver);
+        flightsPage.verifySelectedFlight();
+
+    }
+
+    @And("select flight")
+    public void selectFlight() throws InterruptedException {
+        FlightsPage flightsPage = new FlightsPage(driver);
+        flightsPage.selectFlight();
+    }
+
+    @And("I select ticket type {string}")
+    public void iSelectTicketType(String ticketType) throws InterruptedException {
+        TicketTypePage ticketTypePage = new TicketTypePage(driver);
+        ticketTypePage.checkTicketType(ticketType);
+    }
+
+    @And("I enter contact data {string}")
+    public void iEnterContactData(String countryCodeValue) throws InterruptedException {
+        ContactDataPage contactDataPage = new ContactDataPage(driver);
+        contactDataPage.enterEmail();
+        contactDataPage.enterCountyCode(countryCodeValue);
+        contactDataPage.enterPhoneNumber();
+    }
+
+
+    @Then("I enter passenger data {string} {string} {string} {string} {string}")
+    public void iEnterPassengerData(String passNum, String genderValue,String day,String month,String year) {
+        ContactDataPage contactDataPage = new ContactDataPage(driver);
+        contactDataPage.enterPassengerData(passNum,genderValue,day,month,year);
+    }
+
+    @Then("I click next button")
+    public void iClickNextButton() throws InterruptedException {
+        ContactDataPage contactDataPage = new ContactDataPage(driver);
+        contactDataPage.clickNextbutton();
+
+    }
 }
 
-//    }
-//
-//    @And("I select number of adults")
-//    public void iSelectNumberOfAdults() {
-//    }
 
 
 

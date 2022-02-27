@@ -10,6 +10,9 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
+import java.util.Random;
+
+import static java.lang.Integer.*;
 
 public class CommonMethods {
     WebDriver driver;
@@ -30,16 +33,17 @@ public class CommonMethods {
             Actions actions = new Actions(driver);
             actions.moveToElement(element).build().perform();
             element.click();
-        } catch (StaleElementReferenceException e){
+        } catch (StaleElementReferenceException e) {
             Thread.sleep(1000);
             element.click();
         }
     }
 
-    public void inputElement (WebElement element, String value)  {
-       element.clear();
-       element.click();
-       element.sendKeys(value);
+    public void inputElement(WebElement element, String value) {
+
+        element.clear();
+        element.click();
+        element.sendKeys(value);
     }
 
     public void typeText(WebElement element, String text) throws InterruptedException {
@@ -52,20 +56,20 @@ public class CommonMethods {
             Actions actions = new Actions(driver);
             actions.moveToElement(element).build().perform();
             element.sendKeys(text);
-        } catch (StaleElementReferenceException e){
+        } catch (StaleElementReferenceException e) {
             Thread.sleep(1000);
             element.click();
         }
     }
 
-    public String getText(WebElement element){
-        WebDriverWait wdWait = new WebDriverWait(driver, waitTime);
-        wdWait.until(ExpectedConditions.visibilityOf(element));
+    public String getText(WebElement element) {
+//        WebDriverWait wdWait = new WebDriverWait(driver, waitTime);
+//        wdWait.until(ExpectedConditions.visibilityOf(element));
 
         return element.getText();
     }
 
-    public String getValue(WebElement element){
+    public String getValue(WebElement element) {
         WebDriverWait wdWait = new WebDriverWait(driver, waitTime);
         wdWait.until(ExpectedConditions.visibilityOf(element));
 
@@ -86,22 +90,21 @@ public class CommonMethods {
         }
     }
 
-    public void clickByIndex (List<WebElement> elements, int index){
-           WebElement element = elements.get(index);
-           element.click();
-        }
-
-
-
-    public void scroll(WebElement element){
-        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView(true)", element);
+    public void clickByIndex(List<WebElement> elements, int index) {
+        WebElement element = elements.get(index);
+        element.click();
     }
 
-    public void scroll(String pixels){
-        ((JavascriptExecutor)driver).executeScript("window.scrollBy(0,"+pixels+")");
+
+    public void scroll(WebElement element) {
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true)", element);
     }
 
-    public void hoverElement(WebElement element){
+    public void scroll(String pixels) {
+        ((JavascriptExecutor) driver).executeScript("window.scrollBy(0," + pixels + ")");
+    }
+
+    public void hoverElement(WebElement element) {
         WebDriverWait wdWait = new WebDriverWait(driver, waitTime);
         wdWait.until(ExpectedConditions.visibilityOf(element));
         wdWait.until(ExpectedConditions.elementToBeClickable(element));
@@ -110,14 +113,58 @@ public class CommonMethods {
         actions.moveToElement(element).build().perform();
     }
 
-    public boolean isElementsPresent(List<WebElement> elements) {
+    public boolean areElementsPresent(List<WebElement> elements) {
         return elements.size() != 0;
     }
 
-    public void scrollToElement( WebElement element){
+
+    public void scrollToElement(WebElement element) {
         Actions actions = new Actions(driver);
         actions.moveToElement(element).build().perform();
         element.click();
+    }
+
+
+    public String randomName(int lenght) {
+
+        String[] strings = {"q", "w", "r", "y", "g", "a", "c", "e", "v", "f", "c"};
+        String result = "";
+        for (int i = 0; i <= lenght; i++) {
+            Random random = new Random();
+            int index = random.nextInt(strings.length);
+            result = result + strings[index];
         }
+        return result;
+    }
+
+    public String randomEmail(int lenght) {
+        String[] strings = {"a", "b", "c", "d", "e", "f"};
+        String result = "";
+
+        for (int i = 0; i <= strings.length; i++) {
+            Random random = new Random();
+            int index = random.nextInt(strings.length);
+            result = result + strings[index];
+        }
+        return result + "@gmail.com";
+
+    }
+
+    public String randomPhoneNumber(int lenght) {
+        String[] strings = {"1", "2", "3", "4", "5", "6", "7"};
+        String resultNum = "";
+
+        for (int i = 0; i <= strings.length; i++) {
+            Random random = new Random();
+            int index = random.nextInt(strings.length);
+            resultNum = resultNum + strings[index];
+        }
+        return "69" + resultNum;
+
+    }
+
+
+
+
     //Selenium wrapper methods END
 }
