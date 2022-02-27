@@ -6,7 +6,7 @@
 
         <parameter name="BROWSER" value="CHROME"/>
         <parameter name="ENV" value="QA"/>
-        <parameter name="WAIT" value="10"/>
+        <parameter name="WAIT" value="20"/>
 
         <classes>
             <class name="runners.TestNGCucumberRunner"/>
