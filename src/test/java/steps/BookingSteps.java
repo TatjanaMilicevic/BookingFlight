@@ -156,6 +156,7 @@ public class BookingSteps extends BaseTest {
     public void iSelectSeats() throws InterruptedException {
         SelectSeatsPage selectSeatsPage = new SelectSeatsPage(driver);
         selectSeatsPage.selectSeat();
+        selectSeatsPage.clickNext();
     }
 }
 

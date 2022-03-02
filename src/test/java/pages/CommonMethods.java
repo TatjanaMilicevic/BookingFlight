@@ -26,7 +26,7 @@ public class CommonMethods {
         wdWait.until(ExpectedConditions.visibilityOf(element));
         wdWait.until(ExpectedConditions.elementToBeClickable(element));
 
-//        scrollToElement(element);
+      //  scrollToElement(element);
         try {
             Actions actions = new Actions(driver);
             actions.moveToElement(element).build().perform();
