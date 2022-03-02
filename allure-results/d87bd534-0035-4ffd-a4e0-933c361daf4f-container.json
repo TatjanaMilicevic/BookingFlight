@@ -1,0 +1,1 @@
+{"uuid":"d87bd534-0035-4ffd-a4e0-933c361daf4f","name":"Scenario: Book a Flight","children":["a999861a-a69b-403a-b3cd-3d1b3f26e2ad"],"befores":[{"name":"steps.BookingSteps.setUp()","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1646049931127,"stop":1646049933946}],"afters":[],"links":[],"start":1646049931111,"stop":1646049981320}

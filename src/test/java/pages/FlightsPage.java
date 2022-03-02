@@ -7,6 +7,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
+import java.text.ParseException;
 import java.util.List;
 
 public class FlightsPage extends BasePage {
@@ -78,12 +79,14 @@ public class FlightsPage extends BasePage {
     }
 
 
-    public void checkInOut(String departDate, String returnDate) throws InterruptedException {
+    public void checkInOut(String departDate, String returnDate) throws InterruptedException, ParseException {
+        String expDate = getExpectedDate(departDate);
         clickElement(departBtn);
-        clickElement(driver.findElement(By.xpath("//span[@data-date-cell='" + departDate + "']")));
+        clickElement(driver.findElement(By.xpath("//span[@data-date-cell='" + expDate + "']")));
         clickElement(returnBtn);
         Thread.sleep(1000);
         clickElement(driver.findElement(By.xpath("//span[@data-date-cell='" + returnDate + "']")));
+
     }
 
     public void enterWhereToDestination() throws InterruptedException {
@@ -131,33 +134,33 @@ public class FlightsPage extends BasePage {
         if (firstFlight.isDisplayed()) {
 
             //get price of one passenger and remover ","
-            String priceFirstFlightOne = (getText(prices.get(0))).substring(1).replace(",","");
+            String priceFirstFlightOne = (getText(prices.get(0))).substring(1).replace(",", "");
 
             Double priceFlightExpOne = Double.parseDouble(priceFirstFlightOne);
 
             //get number of adults
-            Double adultsNum = Double.parseDouble(getText(adultEl).substring(0,1));
+            Double adultsNum = Double.parseDouble(getText(adultEl).substring(0, 1));
 
             //get price for all passengers
             Double priceFirstFlightAdults = adultsNum * priceFlightExpOne;
-            double roundPriceFirstFlightAdults = Math.round(priceFirstFlightAdults*100.0)/100.0;
+            //Integer roundPriceFirstFlightAdults = Math.round(priceFirstFlightAdults*100.0)/100.0
 
             clickElement(showFlightBtn.get(0));
 
             //get price on selected flight page - price is for all passengers
-            String priceSelectedFlight = (getText(selectedFlightPrice)).substring(1).replace(",","");
+            String priceSelectedFlight = (getText(selectedFlightPrice)).substring(1).replace(",", "");
 
             Double priceFlightAcc = Double.parseDouble(priceSelectedFlight);
 
             //there is different behavior on this page regarding price, verify prices
-             if(roundPriceFirstFlightAdults==priceFlightAcc){
-                 Assert.assertEquals(roundPriceFirstFlightAdults,priceFlightAcc);
-             }else{
-                 Assert.assertEquals(priceFlightAcc,priceFlightExpOne);
-             }
-
+            if (priceFirstFlightAdults == priceFlightAcc) {
+                Assert.assertEquals(priceFirstFlightAdults, priceFlightAcc);
+            } else {
+                Assert.assertEquals(priceFlightAcc, priceFlightExpOne);
             }
+
         }
+    }
 
     public void selectFlight () throws InterruptedException {
         clickElement(selectFlightBtn);

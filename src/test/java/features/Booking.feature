@@ -7,7 +7,7 @@ Feature: Booking
     Then I navigate to flights page
     And I select flight class "PREMIUM_ECONOMY"
     And I select number of adults "3"
-    And I add departure and return date "2022-02-28" "2022-03-01"
+    And I add departure and return date "2022-03-01" "2022-03-07"
     And I add destination
     And I check direct flights only
     And I click search
@@ -19,6 +19,11 @@ Feature: Booking
     And I enter contact data "RS"
     Then I enter passenger data "2" "M" "15" "02" "1986"
     Then I click next button
+    Then I select mealOption "3" "VEGAN"
+    Then I select seats
+
+
+
 
 
 

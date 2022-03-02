@@ -1,18 +1,16 @@
 package pages;
 
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Random;
-
-import static java.lang.Integer.*;
 
 public class CommonMethods {
     WebDriver driver;
@@ -38,6 +36,7 @@ public class CommonMethods {
             element.click();
         }
     }
+
 
     public void inputElement(WebElement element, String value) {
 
@@ -95,6 +94,18 @@ public class CommonMethods {
         element.click();
     }
 
+    public WebElement findElementCss(String text) {
+        return driver.findElement(By.cssSelector(text));
+
+    }
+    public WebElement findElementXpath(String text) {
+        return driver.findElement(By.xpath(text));
+
+    }
+
+    public List <WebElement> findElementsXpath(String text) {
+        return driver.findElements(By.xpath(text));
+    }
 
     public void scroll(WebElement element) {
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true)", element);
@@ -113,7 +124,7 @@ public class CommonMethods {
         actions.moveToElement(element).build().perform();
     }
 
-    public boolean areElementsPresent(List<WebElement> elements) {
+    public boolean isElementsPresent(List<WebElement> elements) {
         return elements.size() != 0;
     }
 
@@ -163,8 +174,17 @@ public class CommonMethods {
 
     }
 
-
+    public static String getExpectedDate(String date) throws ParseException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate currentOne = LocalDate.now();
+        LocalDate compareOne = LocalDate.parse(date, formatter);
+        if (compareOne.isBefore(currentOne)) {
+            return formatter.format(currentOne.plusDays(1));
+        } else {
+            return formatter.format(compareOne);
+        }
+    }
+}
 
 
     //Selenium wrapper methods END
-}
