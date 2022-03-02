@@ -178,7 +178,7 @@ public class CommonMethods {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate currentOne = LocalDate.now();
         LocalDate compareOne = LocalDate.parse(date, formatter);
-        if (compareOne.isBefore(currentOne)) {
+        if (compareOne.isBefore(currentOne)|| compareOne.isEqual(currentOne)) {
             return formatter.format(currentOne.plusDays(1));
         } else {
             return formatter.format(compareOne);
