@@ -149,6 +149,7 @@ public class BookingSteps extends BaseTest {
     public void iSelectMealOption(String passNum, String mealValue) throws InterruptedException {
         MealChoicePage mealChoicePage = new MealChoicePage(driver);
         mealChoicePage.selectMealAndBaggage(passNum,mealValue);
+        mealChoicePage.clickNextButton();
     }
 
     @Then("I select seats")

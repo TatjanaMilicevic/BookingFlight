@@ -20,6 +20,8 @@ public class MealChoicePage extends BasePage {
     List<WebElement> mealChoiceEl;
     @FindBy(css = "span.InputRadio-module__field___16hZ8")
     List<WebElement> baggageEl;
+    @FindBy (css="div[data-testid='checkout_extras_inner_next']")
+    WebElement nextBtn;
     @FindBy(css = "'div[data-testid='ticket_type_radio_flexible']'")
     List<WebElement> flexibleTicket;
 
@@ -36,10 +38,12 @@ public class MealChoicePage extends BasePage {
                 for (int i = 1; i <= Integer.parseInt(passNum); i++)
                 clickElement(baggageEl.get(i));
             }
-            if(isElementsPresent(flexibleTicket)){
-                clickElement(flexibleTicket.get(0));
-            }
+//
         }
+    }
+
+    public void clickNextButton() throws InterruptedException {
+        clickElement(nextBtn);
     }
 }
 

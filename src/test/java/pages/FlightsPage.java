@@ -143,7 +143,7 @@ public class FlightsPage extends BasePage {
 
             //get price for all passengers
             Double priceFirstFlightAdults = adultsNum * priceFlightExpOne;
-            //Integer roundPriceFirstFlightAdults = Math.round(priceFirstFlightAdults*100.0)/100.0
+            Double roundPriceFirstFlightAdults = Math.round(priceFirstFlightAdults * 100.0) / 100.0;
 
             clickElement(showFlightBtn.get(0));
 
@@ -152,17 +152,24 @@ public class FlightsPage extends BasePage {
 
             Double priceFlightAcc = Double.parseDouble(priceSelectedFlight);
 
-            //there is different behavior on this page regarding price, verify prices
-            if (priceFirstFlightAdults.equals(priceFlightAcc)) {
-                Assert.assertEquals(priceFirstFlightAdults, priceFlightAcc);
-            } else {
-                Assert.assertEquals(priceFlightAcc, priceFlightExpOne);
-            }
+            boolean compareWithTolerance = Math.abs(priceFlightAcc - roundPriceFirstFlightAdults) < 0.001;
 
+            //there is different behavior on this page regarding price, verify prices
+            if (roundPriceFirstFlightAdults.equals(priceFlightAcc)) {
+                Assert.assertEquals(roundPriceFirstFlightAdults, priceFlightAcc);
+                System.out.println("First assertion");
+            } else if (priceFlightAcc.equals(priceFlightExpOne)) {
+                Assert.assertEquals(priceFlightAcc, priceFlightExpOne);
+                System.out.println("Second assertion");
+            } else {
+                Assert.assertTrue(compareWithTolerance, "The difference of is not within tolerance");
+                System.out.println("Third assertion");
+
+            }
         }
     }
 
-    public void selectFlight () throws InterruptedException {
+    public void selectFlight() throws InterruptedException {
         clickElement(selectFlightBtn);
     }
 
