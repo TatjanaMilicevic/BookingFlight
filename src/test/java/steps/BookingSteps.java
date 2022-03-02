@@ -6,11 +6,9 @@ import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import io.cucumber.java.eo.Se;
 import org.testng.Reporter;
-import pages.ContactDataPage;
-import pages.FlightsPage;
-import pages.MealChoicePage;
-import pages.TicketTypePage;
+import pages.*;
 import tests.BaseTest;
 
 import java.io.IOException;
@@ -153,6 +151,11 @@ public class BookingSteps extends BaseTest {
         mealChoicePage.selectMealAndBaggage(passNum,mealValue);
     }
 
+    @Then("I select seats")
+    public void iSelectSeats() throws InterruptedException {
+        SelectSeatsPage selectSeatsPage = new SelectSeatsPage(driver);
+        selectSeatsPage.selectSeat();
+    }
 }
 
 

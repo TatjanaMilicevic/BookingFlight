@@ -46,7 +46,7 @@ public class FlightsPage extends BasePage {
     @FindBy(css = "button.css-1p87hp6")
     WebElement modifySearch;
     @FindBy(css = "div#flightcard-0")
-    WebElement firstFlight;
+    List<WebElement> firstFlight;
     @FindBy(css = "div[data-test-id='flight_card_price_main_price']")
     List<WebElement> prices;
     @FindBy(css = "button[data-testid='flight_card_bound_select_flight']")
@@ -131,7 +131,7 @@ public class FlightsPage extends BasePage {
     }
 
     public void verifySelectedFlight() throws InterruptedException {
-        if (firstFlight.isDisplayed()) {
+        if (isElementsPresent(firstFlight)) {
 
             //get price of one passenger and remover ","
             String priceFirstFlightOne = (getText(prices.get(0))).substring(1).replace(",", "");
@@ -153,7 +153,7 @@ public class FlightsPage extends BasePage {
             Double priceFlightAcc = Double.parseDouble(priceSelectedFlight);
 
             //there is different behavior on this page regarding price, verify prices
-            if (priceFirstFlightAdults == priceFlightAcc) {
+            if (priceFirstFlightAdults.equals(priceFlightAcc)) {
                 Assert.assertEquals(priceFirstFlightAdults, priceFlightAcc);
             } else {
                 Assert.assertEquals(priceFlightAcc, priceFlightExpOne);
