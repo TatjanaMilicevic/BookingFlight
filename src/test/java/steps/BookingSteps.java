@@ -6,13 +6,13 @@ import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import io.cucumber.java.eo.Se;
 import org.testng.Reporter;
-import pages.ContactDataPage;
-import pages.FlightsPage;
-import pages.TicketTypePage;
+import pages.*;
 import tests.BaseTest;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Map;
 
 public class BookingSteps extends BaseTest {
@@ -75,7 +75,7 @@ public class BookingSteps extends BaseTest {
 
 
     @And("I add departure and return date {string} {string}")
-    public void iAddDepartureAndReturnDate(String departDate, String returnDate) throws InterruptedException {
+    public void iAddDepartureAndReturnDate(String departDate, String returnDate) throws InterruptedException, ParseException {
         FlightsPage flightsPage = new FlightsPage(driver);
         flightsPage.checkInOut(departDate,returnDate);
     }
@@ -117,7 +117,6 @@ public class BookingSteps extends BaseTest {
         FlightsPage flightsPage = new FlightsPage(driver);
         flightsPage.selectFlight();
     }
-
     @And("I select ticket type {string}")
     public void iSelectTicketType(String ticketType) throws InterruptedException {
         TicketTypePage ticketTypePage = new TicketTypePage(driver);
@@ -144,6 +143,19 @@ public class BookingSteps extends BaseTest {
         ContactDataPage contactDataPage = new ContactDataPage(driver);
         contactDataPage.clickNextbutton();
 
+    }
+
+    @Then("I select mealOption {string} {string}")
+    public void iSelectMealOption(String passNum, String mealValue) throws InterruptedException {
+        MealChoicePage mealChoicePage = new MealChoicePage(driver);
+        mealChoicePage.selectMealAndBaggage(passNum,mealValue);
+        mealChoicePage.clickNextButton();
+    }
+
+    @Then("I select seats")
+    public void iSelectSeats() throws InterruptedException {
+        SelectSeatsPage selectSeatsPage = new SelectSeatsPage(driver);
+        selectSeatsPage.selectSeat();
     }
 }
 

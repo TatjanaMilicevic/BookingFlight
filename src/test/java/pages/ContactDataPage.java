@@ -1,6 +1,5 @@
 package pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -54,9 +53,9 @@ public class ContactDataPage extends BasePage {
 
     public void enterPassengerData(String passNum, String genderValue, String day, String month, String year) {
         for (int i = 0; i <= Integer.parseInt(passNum); i++) {
-            inputElement(driver.findElement(By.cssSelector("[name='passengers." + i + ".firstName']")), firstName);
-            inputElement(driver.findElement(By.cssSelector("[name='passengers." + i + ".lastName']")), lastName);
-            WebElement genderSelect = driver.findElement(By.cssSelector("[name='passengers." + i + ".gender']"));
+            inputElement(findElementCss("[name='passengers." + i + ".firstName']"), firstName);
+            inputElement(findElementCss("[name='passengers." + i + ".lastName']"),lastName);
+            WebElement genderSelect = findElementCss("[name='passengers." + i + ".gender']");
             genderSelect.click();
             selectByValue(genderSelect, genderValue);
             inputElement(dayEl.get(i), day);
@@ -64,6 +63,8 @@ public class ContactDataPage extends BasePage {
             inputElement(yearEl.get(i), year);
 
         }
+
+
 
     }
 

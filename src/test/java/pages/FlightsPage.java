@@ -7,6 +7,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
+import java.text.ParseException;
 import java.util.List;
 
 public class FlightsPage extends BasePage {
@@ -45,7 +46,7 @@ public class FlightsPage extends BasePage {
     @FindBy(css = "button.css-1p87hp6")
     WebElement modifySearch;
     @FindBy(css = "div#flightcard-0")
-    WebElement firstFlight;
+    List<WebElement> firstFlight;
     @FindBy(css = "div[data-test-id='flight_card_price_main_price']")
     List<WebElement> prices;
     @FindBy(css = "button[data-testid='flight_card_bound_select_flight']")
@@ -78,12 +79,14 @@ public class FlightsPage extends BasePage {
     }
 
 
-    public void checkInOut(String departDate, String returnDate) throws InterruptedException {
+    public void checkInOut(String departDate, String returnDate) throws InterruptedException, ParseException {
+        String expDate = getExpectedDate(departDate);
         clickElement(departBtn);
-        clickElement(driver.findElement(By.xpath("//span[@data-date-cell='" + departDate + "']")));
+        clickElement(driver.findElement(By.xpath("//span[@data-date-cell='" + expDate + "']")));
         clickElement(returnBtn);
         Thread.sleep(1000);
         clickElement(driver.findElement(By.xpath("//span[@data-date-cell='" + returnDate + "']")));
+
     }
 
     public void enterWhereToDestination() throws InterruptedException {
@@ -128,38 +131,45 @@ public class FlightsPage extends BasePage {
     }
 
     public void verifySelectedFlight() throws InterruptedException {
-        if (firstFlight.isDisplayed()) {
+        if (isElementsPresent(firstFlight)) {
 
             //get price of one passenger and remover ","
-            String priceFirstFlightOne = (getText(prices.get(0))).substring(1).replace(",","");
+            String priceFirstFlightOne = (getText(prices.get(0))).substring(1).replace(",", "");
 
             Double priceFlightExpOne = Double.parseDouble(priceFirstFlightOne);
 
             //get number of adults
-            Double adultsNum = Double.parseDouble(getText(adultEl).substring(0,1));
+            Double adultsNum = Double.parseDouble(getText(adultEl).substring(0, 1));
 
             //get price for all passengers
             Double priceFirstFlightAdults = adultsNum * priceFlightExpOne;
-            double roundPriceFirstFlightAdults = Math.round(priceFirstFlightAdults*100.0)/100.0;
+            Double roundPriceFirstFlightAdults = Math.round(priceFirstFlightAdults * 100.0) / 100.0;
 
             clickElement(showFlightBtn.get(0));
 
             //get price on selected flight page - price is for all passengers
-            String priceSelectedFlight = (getText(selectedFlightPrice)).substring(1).replace(",","");
+            String priceSelectedFlight = (getText(selectedFlightPrice)).substring(1).replace(",", "");
 
             Double priceFlightAcc = Double.parseDouble(priceSelectedFlight);
 
+            boolean compareWithTolerance = Math.abs(priceFlightAcc - roundPriceFirstFlightAdults) < 0.001;
+
             //there is different behavior on this page regarding price, verify prices
-             if(roundPriceFirstFlightAdults==priceFlightAcc){
-                 Assert.assertEquals(roundPriceFirstFlightAdults,priceFlightAcc);
-             }else{
-                 Assert.assertEquals(priceFlightAcc,priceFlightExpOne);
-             }
+            if (roundPriceFirstFlightAdults.equals(priceFlightAcc)) {
+                Assert.assertEquals(roundPriceFirstFlightAdults, priceFlightAcc);
+                System.out.println("First assertion");
+            } else if (priceFlightAcc.equals(priceFlightExpOne)) {
+                Assert.assertEquals(priceFlightAcc, priceFlightExpOne);
+                System.out.println("Second assertion");
+            } else {
+                Assert.assertTrue(compareWithTolerance, "The difference of is not within tolerance");
+                System.out.println("Third assertion");
 
             }
         }
+    }
 
-    public void selectFlight () throws InterruptedException {
+    public void selectFlight() throws InterruptedException {
         clickElement(selectFlightBtn);
     }
 
