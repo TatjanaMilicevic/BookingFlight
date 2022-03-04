@@ -158,6 +158,12 @@ public class BookingSteps extends BaseTest {
         selectSeatsPage.selectSeat();
         selectSeatsPage.clickNext();
     }
+
+    @Then("I open payment paga and verify price")
+    public void iOpenPaymentPagaAndVerifyPrice() {
+        PaymentPage paymentPage = new PaymentPage(driver);
+        paymentPage.verifyFinalPrice();
+    }
 }
 
 

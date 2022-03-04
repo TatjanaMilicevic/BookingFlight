@@ -21,6 +21,8 @@ Feature: Booking
     Then I click next button
     Then I select mealOption "3" "VEGAN"
     Then I select seats
+    Then I open payment paga and verify price
+
 
 
 
