@@ -15,13 +15,18 @@ Feature: Booking
     Then I choose presentation "Cheapest"
     Then I check price
     And select flight
+
     And I select ticket type "Flexible ticket"
+
     And I enter contact data "RS"
     Then I enter passenger data "2" "M" "15" "02" "1986"
     Then I click next button
+
     Then I select mealOption "3" "VEGAN"
+
     Then I select seats
-    Then I open payment paga and verify price
+
+    Then I open payment page and verify price
 
 
 
