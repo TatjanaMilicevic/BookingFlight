@@ -25,6 +25,8 @@ public class PaymentPage extends BasePage {
         if (paymentFinalPrice.equals(SelectSeatsPage.priceFinal)) {
             Assert.assertEquals(paymentFinalPrice, SelectSeatsPage.priceFinal);
             System.out.println("Price is ok");
+        }else{
+            System.out.println("There are no additional costs.The final price is" + paymentFinalPrice);
         }
 
     }
