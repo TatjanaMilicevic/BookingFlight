@@ -18,16 +18,20 @@ public class MealChoicePage extends BasePage {
 
     @FindBy(css = "[name='meal_choice_1']")
     List<WebElement> mealChoiceEl;
+
+
     @FindBy(css = "span.InputRadio-module__field___16hZ8")
     List<WebElement> baggageEl;
+
     @FindBy (css="div[data-testid='checkout_extras_inner_next']")
     WebElement nextBtn;
+
     @FindBy(css = "'div[data-testid='ticket_type_radio_flexible']'")
     List<WebElement> flexibleTicket;
 
 
     public void selectMealAndBaggage(String passNum, String mealValue) throws InterruptedException {
-        Thread.sleep(2000);
+        Thread.sleep(1000);
         String checkOutExtrasUrl = driver.getCurrentUrl();
         if (checkOutExtrasUrl.contains("/extras/")) {
             if (isElementsPresent(mealChoiceEl)) {
@@ -38,7 +42,6 @@ public class MealChoicePage extends BasePage {
                 for (int i = 1; i <= Integer.parseInt(passNum); i++)
                 clickElement(baggageEl.get(i));
             }
-//
         }
     }
 

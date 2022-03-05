@@ -14,7 +14,7 @@ import java.util.Random;
 
 public class CommonMethods {
     WebDriver driver;
-    int waitTime = 30;
+    int waitTime = 10;
 
     public CommonMethods(WebDriver driver) {
         this.driver = driver;
@@ -39,7 +39,6 @@ public class CommonMethods {
 
 
     public void inputElement(WebElement element, String value) {
-
         element.clear();
         element.click();
         element.sendKeys(value);
@@ -96,11 +95,10 @@ public class CommonMethods {
 
     public WebElement findElementCss(String text) {
         return driver.findElement(By.cssSelector(text));
-
     }
+
     public WebElement findElementXpath(String text) {
         return driver.findElement(By.xpath(text));
-
     }
 
     public List <WebElement> findElementsXpath(String text) {
@@ -127,7 +125,6 @@ public class CommonMethods {
     public boolean isElementsPresent(List<WebElement> elements) {
         return elements.size() != 0;
     }
-
 
     public void scrollToElement(WebElement element) {
         Actions actions = new Actions(driver);
@@ -183,6 +180,17 @@ public class CommonMethods {
         } else {
             return formatter.format(compareOne);
         }
+    }
+
+    public static String compareDates(String date1, String date2){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate compareFirst = LocalDate.parse(date1, formatter);
+        LocalDate compareSecond = LocalDate.parse(date2, formatter);
+
+        if(compareSecond.isBefore(compareFirst)){
+            return formatter.format(compareFirst.plusDays(3));
+        }
+        return date2;
     }
 }
 

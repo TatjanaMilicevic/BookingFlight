@@ -21,38 +21,55 @@ public class FlightsPage extends BasePage {
 
     @FindBy(css = "[data-decider-header='flights']")
     WebElement Flights;
+
     @FindBy(css = "select.css-1k0jlfl")
     WebElement flightClass;
+
     @FindBy(xpath = "//div[contains(text(), 'adult')]")
     WebElement adultEl;
+
     @FindBy(css = ".css-153jucu")
     List<WebElement> incAdultNum;
+
     @FindBy(css = ".css-1bal7l4 .css-ya5gr9")
     WebElement addAdultNumBtn;
+
     @FindBy(css = "[data-testid='searchbox_destination']")
     WebElement whereTo;
+
     @FindBy(css = "[data-testid='searchbox_destination_input']")
     WebElement whereToDestination;
+
     @FindBy(css = "[class='bui-checkbox']>[type='checkbox']")
     List<WebElement> allAirports;
+
     @FindBy(xpath = "//input[@placeholder='Depart']")
     WebElement departBtn;
+
     @FindBy(xpath = "//input[@placeholder='Return']")
     WebElement returnBtn;
+
     @FindBy(css = ".InputCheckbox-module__field___1mRcZ")
     WebElement directFlights;
+
     @FindBy(css = "button.css-ya5gr9")
     WebElement search;
+
     @FindBy(css = "button.css-1p87hp6")
-    WebElement modifySearch;
+    List<WebElement> modifySearch;
+
     @FindBy(css = "div#flightcard-0")
     List<WebElement> firstFlight;
+
     @FindBy(css = "div[data-test-id='flight_card_price_main_price']")
     List<WebElement> prices;
+
     @FindBy(css = "button[data-testid='flight_card_bound_select_flight']")
     List<WebElement> showFlightBtn;
+
     @FindBy(css = ".css-5nu86q div[data-test-id='flight_card_price_main_price']")
     WebElement selectedFlightPrice;
+
     @FindBy(css = "[data-testid='flight_details_inner_modal_select_button']")
     WebElement selectFlightBtn;
 
@@ -81,17 +98,18 @@ public class FlightsPage extends BasePage {
 
     public void checkInOut(String departDate, String returnDate) throws InterruptedException, ParseException {
         String expDate = getExpectedDate(departDate);
+        String returnDateFinal = compareDates(departDate,returnDate);
         clickElement(departBtn);
         clickElement(driver.findElement(By.xpath("//span[@data-date-cell='" + expDate + "']")));
         clickElement(returnBtn);
         Thread.sleep(1000);
-        clickElement(driver.findElement(By.xpath("//span[@data-date-cell='" + returnDate + "']")));
+        clickElement(driver.findElement(By.xpath("//span[@data-date-cell='" + returnDateFinal + "']")));
 
     }
 
-    public void enterWhereToDestination() throws InterruptedException {
+    public void enterWhereToDestination(String destination) throws InterruptedException {
         clickElement(whereTo);
-        inputElement(whereToDestination, "MIAMI");
+        inputElement(whereToDestination,destination);
         clickByIndex(allAirports, 0);
     }
 
@@ -108,7 +126,7 @@ public class FlightsPage extends BasePage {
     }
 
     public void chooseStops(String stops) throws InterruptedException {
-        if ((modifySearch.isDisplayed())) {
+        if (isElementsPresent(modifySearch)) {
             clickElement(directFlights);
             Thread.sleep(2000);
             clickElement(driver.findElement(By.xpath("//div[text() ='" + stops + "']")));
@@ -152,7 +170,8 @@ public class FlightsPage extends BasePage {
 
             Double priceFlightAcc = Double.parseDouble(priceSelectedFlight);
 
-            boolean compareWithTolerance = Math.abs(priceFlightAcc - roundPriceFirstFlightAdults) < 0.001;
+            //Accept small difference in price
+            boolean compareWithTolerance = Math.abs(priceFlightAcc - roundPriceFirstFlightAdults) < 0.02;
 
             //there is different behavior on this page regarding price, verify prices
             if (roundPriceFirstFlightAdults.equals(priceFlightAcc)) {
