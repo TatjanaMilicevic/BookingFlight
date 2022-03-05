@@ -98,11 +98,12 @@ public class FlightsPage extends BasePage {
 
     public void checkInOut(String departDate, String returnDate) throws InterruptedException, ParseException {
         String expDate = getExpectedDate(departDate);
+        String returnDateFinal = compareDates(departDate,returnDate);
         clickElement(departBtn);
         clickElement(driver.findElement(By.xpath("//span[@data-date-cell='" + expDate + "']")));
         clickElement(returnBtn);
         Thread.sleep(1000);
-        clickElement(driver.findElement(By.xpath("//span[@data-date-cell='" + returnDate + "']")));
+        clickElement(driver.findElement(By.xpath("//span[@data-date-cell='" + returnDateFinal + "']")));
 
     }
 

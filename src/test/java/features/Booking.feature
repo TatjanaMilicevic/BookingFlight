@@ -7,7 +7,7 @@ Feature: Booking
     Then I navigate to flights page
     And I select flight class "PREMIUM_ECONOMY"
     And I select number of adults "3"
-    And I add departure and return date "2022-03-11" "2022-03-17"
+    And I add departure and return date "2022-03-11" "2022-03-10"
     And I add destination "MIAMI"
     And I check direct flights only
     And I click search

@@ -181,6 +181,17 @@ public class CommonMethods {
             return formatter.format(compareOne);
         }
     }
+
+    public static String compareDates(String date1, String date2){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate compareFirst = LocalDate.parse(date1, formatter);
+        LocalDate compareSecond = LocalDate.parse(date2, formatter);
+
+        if(compareSecond.isBefore(compareFirst)){
+            return formatter.format(compareFirst.plusDays(3));
+        }
+        return date2;
+    }
 }
 
 
