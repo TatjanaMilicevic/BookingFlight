@@ -29,11 +29,11 @@ public class BookingSteps extends BaseTest {
         setUPTest(BROWSER, Integer.parseInt(WAIT));
     }
 
-//    @After
-//    public void tearDown() throws IOException, InterruptedException {
-//        reportScreenshot("end", "screenshot on end or fail");
-//        quit();
-//    }
+    @After
+    public void tearDown() throws IOException, InterruptedException {
+        reportScreenshot("end", "screenshot on end or fail");
+        quit();
+    }
 
     @Given("I load test data from {string} {string} {string}")
     public void iLoadTestDataFrom(String fileName, String sheetName, String rowNum) throws IOException {
@@ -55,10 +55,10 @@ public class BookingSteps extends BaseTest {
 
     }
 
-    @And("I add destination")
-    public void iAddDestination() throws InterruptedException {
+    @And("I add destination {string}")
+    public void iAddDestination(String destination) throws InterruptedException {
         FlightsPage flightsPage = new FlightsPage(driver);
-        flightsPage.enterWhereToDestination();
+        flightsPage.enterWhereToDestination(destination);
     }
 
     @And("I select flight class {string}")
@@ -159,8 +159,8 @@ public class BookingSteps extends BaseTest {
         selectSeatsPage.clickNext();
     }
 
-    @Then("I open payment paga and verify price")
-    public void iOpenPaymentPagaAndVerifyPrice() {
+    @Then("I open payment page and verify price")
+    public void iOpenPaymentPageAndVerifyPrice() {
         PaymentPage paymentPage = new PaymentPage(driver);
         paymentPage.verifyFinalPrice();
     }

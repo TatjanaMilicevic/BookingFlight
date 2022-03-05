@@ -8,7 +8,7 @@ Feature: Booking
     And I select flight class "PREMIUM_ECONOMY"
     And I select number of adults "3"
     And I add departure and return date "2022-03-11" "2022-03-17"
-    And I add destination
+    And I add destination "MIAMI"
     And I check direct flights only
     And I click search
     Then I choose stops and flight time "1 stop max" "6:00 AM - 11:59 AM"

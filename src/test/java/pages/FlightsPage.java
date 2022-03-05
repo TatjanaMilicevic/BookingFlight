@@ -106,9 +106,9 @@ public class FlightsPage extends BasePage {
 
     }
 
-    public void enterWhereToDestination() throws InterruptedException {
+    public void enterWhereToDestination(String destination) throws InterruptedException {
         clickElement(whereTo);
-        inputElement(whereToDestination, "MIAMI");
+        inputElement(whereToDestination,destination);
         clickByIndex(allAirports, 0);
     }
 
